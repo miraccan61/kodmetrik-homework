@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example formBuilder</title>
+</head>
+<body>
+  
+
+    <div class="setDataWrap">
+        <button id="showData" type="button">Show Data</button>
+      </div>
+     
+
+  <form action="{% url 'work1:home1' %}" method="POST">
+      {% csrf_token %}
+    {{forms}}
+    <div id="build-wrap"></div>
+
+    <input type="submit" class="btn btn-primary" value="Create Hash ID"/>
+
+  </form>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+  <script src="https://formbuilder.online/assets/js/form-builder.min.js"></script>
+  
+<script>
+    jQuery(function($) {
+        var fbEditor = document.getElementById('build-wrap');
+       /// options = {
+       ///    dataType: 'json' // defaults 'json' ---> formBuilder(options)
+       ///   };
+        var formBuilder = $(fbEditor).formBuilder();
+        document.getElementById('showData').addEventListener('click', function() {
+        formBuilder.actions.showData()
+        formData = formBuilder.actions.getData('json', true)
+        console.log(formData)
+        return formData
+        });
+      });
+</script>
+
+</body>
+</html>
