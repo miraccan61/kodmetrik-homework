@@ -7,16 +7,17 @@
 <body>
 
 
-  <form action="{% url 'work1:home1' %}" method="POST">
+  <form  id="form" method="POST">
       {% csrf_token %}
-    {{form}}
-    <div id="build-wrap"></div>
+      <input id="hash_id" type="text" name="hash_id">
+      <div id="build-wrap"></div>
     <input type="submit" class="btn btn-primary" value="Create Hash ID"/>
   </form>
 
   <div class="container mt-5">
-  <div id="label"></div>
-  </div>
+    <div id="output">
+
+    </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
   <script src="https://formbuilder.online/assets/js/form-builder.min.js"></script>
@@ -26,14 +27,12 @@
         // take the element from html
         var fbEditor = document.getElementById('build-wrap');
         //create csrf token for safe info
-        var token = '{{csrf_token}}';
         // create formbuilder this is creating random form
         var formBuilder = $(fbEditor).formBuilder();
         
         fbEditor.addEventListener('click', function() {
         // this form is created from our side 
         formData = formBuilder.actions.getData('json', true)
-      
         });
           
         const form = document.getElementById('form');
@@ -61,6 +60,26 @@
 </script>
 
 <script>
+  $('#form').on('submit', function(e){
+    e.preventDefault();
+      $.ajax({
+           type : "POST", 
+           url: "{% url 'work1:ajax_posting' %}", /* django ajax posting url  */
+           data: {
+            hash_id : $('#hash_id').val(),
+            build_wrap : $('#build-wrap').val(),
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            dataType: "json",
+    
+           },
+           success: function(data){
+              $('#output').html(data.msg) /* response message */
+           },
+           failure: function() {
+               
+           }
+       });
+            });    
  
 </script>
 </body>
