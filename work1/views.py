@@ -1,13 +1,18 @@
 from django.shortcuts import render
 from .forms import FormBuilderForm
 from .models import FormBuilder
+from django.http import JsonResponse
+
 
 def home(request):
-    forms = FormBuilderForm()
-    if request.method == 'POST':
-        hash_id = request.POST.get('hash_id')
-        print(hash_id)
-    context={
-        'forms':forms
-    }
-    return render(request,'work1/index.html',context)
+    form = FormBuilderForm()
+    if request.is_ajax():
+        form = FormBuilderForm(request.POST)
+        print(request.body)
+        if form.is_valid():
+            hash_id = form.cleaned_data['hash_id']
+            print(hash_id)
+            return JsonResponse({
+                'message': 'success'
+            })
+    return render(request, 'work1/index.html', {'form': form})

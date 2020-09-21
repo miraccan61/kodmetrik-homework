@@ -5,7 +5,7 @@ app_name = 'work2'
 
 urlpatterns = [
     # ... other urls
-    path('', indexView),
+    path('', indexView,name="home2"),
     path('post/ajax/friend', postFriend, name = "post_friend"),
     path('get/ajax/validate/nickname', checkNickName, name = "validate_nickname"),
     # ...

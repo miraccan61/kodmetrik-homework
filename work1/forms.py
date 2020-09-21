@@ -5,4 +5,4 @@ import datetime
 class FormBuilderForm(forms.ModelForm):
     class Meta:
         model = FormBuilder
-        fields = ("__all__")
+        fields = ("hash_id",)
